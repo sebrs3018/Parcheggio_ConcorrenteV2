@@ -13,8 +13,8 @@ public class Parcheggio2 {
 
 
  // costruttore per inizializzare le istanze (es. con il numero di posti totale)
-    public Parcheggio2(int _nroPostiTotale){
-        nroPostiTotale = _nroPostiTotale;
+    public Parcheggio2(int _nroPostiLiberi){
+        nroPostiLiberi = _nroPostiLiberi;
     }
 
     /*un metodo “ENTRATA(MARCA,TARGA)” per richiedere l’ingresso dall’unica via di accesso
@@ -22,7 +22,7 @@ public class Parcheggio2 {
     bloccante quando i posti sono tuZ occupati.*/
 
     public void Entrata(String Marca, String Targa){
-        while(getNroPostiLiberi() >= getNroPostiTotale()) {
+        while(getNroPostiLiberi() <= 0) {
             try {
                 wait();
                 System.out.println("gang");
@@ -32,6 +32,7 @@ public class Parcheggio2 {
         }
 
         Parcheggio.put(Targa, Marca);
+        --nroPostiLiberi;
     }
 
 
@@ -42,10 +43,9 @@ public class Parcheggio2 {
         System.out.println("GANG");
         setNroPostiLiberi(getNroPostiLiberi() + 1);
         Parcheggio.remove(targa);
-        notifyAll();
     }
 
-    /*Un metodo “SALVA_LOG(FILENAME)” che salva sul file FILENAME la lista di auto
+    /* Un metodo “SALVA_LOG(FILENAME)” che salva sul file FILENAME la lista di auto
     attualmente parcheggiate. */
     public void salvaLog(String filename){
 
@@ -67,22 +67,13 @@ public class Parcheggio2 {
     }
 
 
-
-
-    public int getNroPostiTotale() {
-        return nroPostiTotale;
-    }
-
-    public int getNroPostiLiberi() {
+    public synchronized int getNroPostiLiberi() {
         return nroPostiLiberi;
     }
-
-
-
-
-
-
-
+    public synchronized void setNroPostiLiberi(int nroPosti) {
+        notify();
+        nroPostiLiberi = nroPosti;
+    }
 
 
 }
