@@ -8,8 +8,6 @@ import java.util.concurrent.ConcurrentMap;
 
 public class Parcheggio2 {
 
-
-    private int nroPostiTotale;
     private int nroPostiLiberi;
     ConcurrentMap Parcheggio = new ConcurrentHashMap<String, String>(); //struttura dati per tenere traccia delle targhe e modelli
 
@@ -27,6 +25,7 @@ public class Parcheggio2 {
         while(getNroPostiLiberi() >= getNroPostiTotale()) {
             try {
                 wait();
+                System.out.println("gang");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -40,15 +39,8 @@ public class Parcheggio2 {
     //un metodo “USCITA(TARGA)” per notificare l’uscita dal parcheggio. Il metodo non è
     //bloccante.
     public void Uscita(String targa){
-        while(getNroPostiLiberi() <= 0) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
+        System.out.println("GANG");
+        setNroPostiLiberi(getNroPostiLiberi() + 1);
         Parcheggio.remove(targa);
         notifyAll();
     }
