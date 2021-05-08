@@ -39,7 +39,7 @@ public class Parcheggio2 {
 
     //un metodo “USCITA(TARGA)” per notificare l’uscita dal parcheggio. Il metodo non è
     //bloccante.
-    public void uscita(String targa){
+    public void Uscita(String targa){
         while(getNroPostiLiberi() <= 0) {
             try {
                 wait();
